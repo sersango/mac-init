@@ -1,0 +1,43 @@
+[user]
+  name = Sergio Sanchez
+  email = sergiosg.1987@gmail.com
+
+[core]
+  editor = vim
+  excludesfile = ~/.gitignore
+
+[merge]
+  tool = diff
+
+[alias]
+  co = checkout
+  st = status
+  ci = commit
+  br = branch
+  root = !pwd
+  visual = !gitk &i
+  uncommit = reset --soft HEAD^
+  unstage = reset HEAD --
+  prunebr = remote prune origin ; Removes local branches that dont't exist remotely
+  sh = stash
+  unsh = stash pop
+  lol = log --graph --decorate --pretty=oneline --abbrev-commit --all
+  lola = "log --graph --pretty=format:'%Cred%h%Creset - %C(bold blue)<%an>%Creset %C(yellow)%d%Creset %s %Cgreen(%cr)' --abbrev-commit --date=relative"
+
+[push]
+  default = current
+
+[color]
+  ui = true
+
+[hub]
+  host = github.com
+
+[filter "lfs"]
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+	required = true
+	process = git-lfs filter-process
+
+[credential]
+	helper = store

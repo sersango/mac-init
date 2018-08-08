@@ -1,0 +1,6 @@
+alias please='sudo'
+alias ll='ls -alhF'
+alias la='ls -A'
+alias install='brew install'
+alias update='brew update && brew upgrade'
+alias search='please find / -name '

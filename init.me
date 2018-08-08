@@ -1,0 +1,338 @@
+#!/bin/bash
+
+EXIT=0
+
+funRVM() {
+    echo -e "*** Installing RVM ***"
+    sleep 1
+    \curl -sSL https://get.rvm.io | bash -s stable --ruby
+    echo -e "*** Installed RVM! ***"
+    sleep 2
+}
+
+funHomebrew() {
+    echo -e "*** Installing Homebrew ***"
+    sleep 1
+    ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+    echo -e "*** Installed Homebrew! ***"
+    sleep 2
+}
+
+funUntapTap() {
+    echo -e "*** Untap and tap brew repos ***"
+    sleep 1
+    brew untap phinze/cask && brew tap phinze/cask
+    brew untap caskroom/versions && brew tap caskroom/versions
+    brew untap casidiablo/custom && brew tap casidiablo/custom
+    sleep 2
+}
+
+funBrewPackages() {
+    echo -e "*** Installing Brew Packages ***"
+    sleep 1
+    funUntapTap
+    #brew install android-platform-tools #I think brew cask installs it better
+    #brew install ant
+    brew install autoconf
+    brew install automake
+    brew install brew-cask
+    #brew install cabextract
+    #brew install closure-linter
+    #brew install coreutils
+    #brew install ffmpeg
+    #brew install freetype
+    #brew install gdbm
+    #brew install geoip
+    #brew install gettext
+    #brew install ghostscript
+    brew install git
+    brew install git-lfs
+    #brew install glib
+    #brew install gmp
+    #brew install gnutls
+    #brew install gradle
+    brew install grep
+    #brew install heroku
+    #brew install heroku-toolbelt
+    #brew install htop
+    #brew install hub
+    #brew install imagemagick
+    brew install jpeg
+    #brew install jq
+    brew install keybase
+    #brew install lame
+    #brew install libffi
+    #brew install libgcrypt
+    #brew install libtasn1
+    #brew install mongo
+    #brew install nettle
+    brew install nmap
+    #brew install openssl
+    #brew install optipng
+    #brew install pcre
+    #brew install perl
+    #brew install phantomjs
+    #brew install protobuf
+    #brew install python
+    #brew install ssh-copy-id
+    brew install telnet
+    brew install tree
+    brew install vim
+    brew install wget
+    #brew install xz
+    #brew install yarn
+    brew cleanup # clean cache
+    echo -e "*** Installed Brew Packages! ***"
+    sleep 2
+}
+
+funCaskPackages() {
+    echo -e "*** Installing Cask Packages ***"
+    sleep 1
+    #brew cask install android-file-transfer
+    #brew cask install android-platform-tools
+    #brew cask install android-studio
+    #brew cask install atom
+    #brew cask install boot2docker
+    #brew cask install brackets
+    #brew cask install calibre
+    #brew cask install chromecast
+    #brew cask install dropbox
+    #brew cask install evernote
+    #brew cask install filezilla
+    #brew cask install firefox
+    #brew cask install flash
+    brew cask install google-chrome
+    #brew cask install google-earth
+    #brew cask install gpgtools
+    brew cask install iterm2
+    #brew cask install inkscape
+    brew cask install intellij-idea
+    brew cask install java #or java7
+    #brew cask install jdownloader
+    #brew cask install karabiner
+    #brew cask install macvim
+    #brew cask install phpstorm
+    #brew cask install popcorn-time
+    brew cask install postman
+    #brew cask install qbittorrent
+    #brew cask install radiant-player
+    #brew cask install robomongo
+    #brew cask install silverlight
+    #brew cask install skype
+    #brew cask install slack
+    #brew cask install sourcetree
+    #brew cask install spectacle
+    brew cask install spotify
+    #brew cask install steam
+    #brew cask install sublime-text3
+    #brew cask install teamviewer
+    #brew cask install techstoreclub-simple-comic
+    brew cask install the-unarchiver
+    #brew cask install tomighty
+    #brew cask install tunnelblick
+    #brew cask install tweeten
+    #brew cask install vagrant
+    #brew cask install virtualbox
+    #brew cask install visual-studio-code
+    brew cask install vlc
+    #brew cask install wireshark-dev
+    #brew cask install wkhtmltopdf
+    #brew cask install yubikey-neo-manager
+    #brew cask install yubikey-personalization-gui
+    #brew cask install zeplin
+    brew cask cleanup # clean cache
+    echo -e "*** Installed Cask Packages! ***"
+    sleep 2
+}
+
+funNPM() {
+    echo -e "*** Installing NPM Packages and node ***"
+    sleep 1
+    curl -L https://www.npmjs.com/install.sh | sudo sh
+    npm install -g n yo bower eslint grunt-cli gulp less coffee-script jshint node-inspector generator-polymer babel yarn vue-cli
+
+    sudo n stable
+    echo -e "*** Installed NPM Packages and node! ***"
+    sleep 2
+}
+
+funAPM() {
+    echo -e "*** Installing Atom Packages ***"
+    sleep 1
+    apm install activate-power-mode
+    apm install atom-clock
+    apm install color-picker
+    apm install linter
+    apm install linter-eslint
+    apm install linter-jshint
+    apm install merge-conflicts
+    apm install minimap
+    apm install python-debugger
+    echo -e "*** Installed Atom Packages! ***"
+    sleep 2
+}
+
+funScripts() {
+    echo -e "*** Installing scripts ***"
+    CURRENT_FOLDER=`pwd`
+    BACKUP_FOLDER=".dotfiles_backup"
+
+    # init and update submodules
+    git submodule init
+    git submodule update
+    cd ~
+
+    # backup your files
+    rm -rf $BACKUP_FOLDER
+    mkdir $BACKUP_FOLDER
+    mv .bowerrc $BACKUP_FOLDER
+    mv .gitconfig $BACKUP_FOLDER
+    mv .gitignore $BACKUP_FOLDER
+    mv .screenrc $BACKUP_FOLDER
+    mv .vimrc $BACKUP_FOLDER
+    mv .osx $BACKUP_FOLDER
+    mv .editorconfig $BACKUP_FOLDER
+
+    # remove old folders
+    rm .git-mods
+    rm .vim
+
+    # link files from dotfiles to real ones
+    ln -s $CURRENT_FOLDER/dotfiles/bowerrc .bowerrc
+    ln -s $CURRENT_FOLDER/dotfiles/bash_aliases .bash_aliases
+    ln -s $CURRENT_FOLDER/dotfiles/git_prompt .git_prompt
+    ln -s $CURRENT_FOLDER/dotfiles/git-completion.bash .git-completion.bash
+    ln -s $CURRENT_FOLDER/dotfiles/gitconfig .gitconfig
+    ln -s $CURRENT_FOLDER/dotfiles/gitignore .gitignore
+    ln -s $CURRENT_FOLDER/dotfiles/screenrc .screenrc
+    ln -s $CURRENT_FOLDER/dotfiles/vimrc .vimrc
+    ln -s $CURRENT_FOLDER/dotfiles/osx .osx
+    ln -s $CURRENT_FOLDER/dotfiles/editorconfig .editorconfig
+
+    # link folders from dotfiles to real ones
+    #ln -s $CURRENT_FOLDER/dotfiles/git-mods .git-mods
+    ln -s $CURRENT_FOLDER/.vim .vim
+
+    # add mac-init alias
+    echo "alias mac-init='cd `echo $CURRENT_FOLDER`; ./init.me'"
+    . ~/.osx
+    . ~/.bash_aliases
+    . ~/.git_prompt
+    . ~/.git-completion.bash
+
+    echo -e "*** Installed scripts! ***"
+    sleep 2
+}
+
+funUpdateAll() {
+    funUntapTap
+    echo -e "*** Updating brew packages ***"
+    sleep 1
+    brew update && brew upgrade --all
+    sleep 2
+    echo -e "*** Updating Node.js stable (using n) and NPM ***"
+    sleep 1
+    curl -L https://www.npmjs.com/install.sh | sudo sh
+    sudo n stable
+    sleep 2
+    echo -e "*** Updating npm packages ***"
+    sleep 1
+    npm update -g
+    sleep 2
+    echo -e "*** Updating atom packages ***"
+    sleep 1
+    apm update --confirm=false
+    echo -e "*** Everything updated! ***"
+    sleep 2
+}
+
+funCleanCaches() {
+    echo -e "*** Cleaning caches ***"
+    sleep 1
+    brew cleanup
+    brew cask cleanup
+    npm cache clean
+    yarn cache clean
+    apm clean
+    echo -e "*** Everything clean! ***"
+    sleep 2
+}
+
+clear
+echo "Sudoing first"
+sudo echo ""
+while [ $EXIT==0 ]
+do
+    echo -e "*****************************************************************"
+    echo -e "*                        Mac Initializer                        *"
+    echo -e "*****************************************************************"
+    echo -e "*           Just select what do you want to install             *"
+    echo -e "*                   or install everything                       *"
+    echo -e "*****************************************************************"
+    echo -e "*                        Made by Sersango                       *"
+    echo -e "*****************************************************************"
+    echo
+    echo -e "Options:"
+    echo -e "   1) RVM"
+    echo -e "   2) Homebrew"
+    echo -e "   3) Brew packages"
+    echo -e "   4) Brew cask packages"
+    echo -e "   5) NPM packages"
+    echo -e "   6) Atom packages"
+    echo -e "   7) Config and aliases"
+    echo
+    echo -e "   8) Everything"
+    echo -e "   9) Update all"
+    echo -e "  10) Clean caches"
+    echo
+    echo -e "   0) Exit"
+
+    echo -n "What do you want to do? "
+    read OPTION
+    case $OPTION in
+    1 )
+        funRVM
+        ;;
+    2 )
+        funHomebrew
+        ;;
+    3 )
+        funBrewPackages
+        ;;
+    4 )
+        funCaskPackages
+        ;;
+    5 )
+        funNPM
+        ;;
+    6 )
+        funAPM
+        ;;
+    7 )
+        funScripts
+        ;;
+    8 )
+        funRVM
+        funHomebrew
+        funBrewPackages
+        funCaskPackages
+        funNPM
+        funAPM
+        funOhMyZsh
+        funScripts
+        ;;
+    9 )
+        funUpdateAll
+        funCleanCaches
+        ;;
+    10 )
+        funCleanCaches
+        ;;
+    0 )
+        clear
+        echo "Good luck my friend!"
+        exit
+    esac
+    clear
+done
